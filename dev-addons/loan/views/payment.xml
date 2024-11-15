@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="loan_pay_view_tree" model="ir.ui.view">
+        <field name="name">loan.loan.list</field>
+        <field name="model">loan.loan</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="create_uid" string="User"/>
+                <field name="title"/>
+                <field name="time_needed"/>
+                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="create_date"/>
+                <button name="pay_loan" class="btn btn-md btn-success" type="object" string="Pay Loan"
+                        icon="fa-solid fa-check" invisible="state != 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_loan_paid" model="ir.actions.act_window">
+        <field name="name">Loan Paid</field>
+        <field name="res_model">loan.loan</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="loan_pay_view_tree"/>
+        <field name="domain">[('state', '=', 'approved')]</field>
+    </record>
+
+    <menuitem id="loan_requests_paid" name="pay Loan Money"
+              action="action_loan_paid"
+              parent="menu_loan_root"/>
+
+</odoo>
